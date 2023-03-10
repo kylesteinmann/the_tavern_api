@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_10_004920) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_10_014340) do
   create_table "comments", force: :cascade do |t|
     t.string "content"
     t.integer "user_id", null: false
@@ -27,6 +27,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_10_004920) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer "subscriber_id", null: false
+    t.integer "subscribee_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscribee_id"], name: "index_subscriptions_on_subscribee_id"
+    t.index ["subscriber_id"], name: "index_subscriptions_on_subscriber_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,4 +55,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_10_004920) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "subscriptions", "users", column: "subscribee_id"
+  add_foreign_key "subscriptions", "users", column: "subscriber_id"
 end
