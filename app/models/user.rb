@@ -3,9 +3,11 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
-  has_many :subscriptions, :foreign_key => 'subscriber_id'
-  has_many :subs, through: :subscriptions, source: "subscribee", :class_name => 'User', :foreign_key => 'subscribee_id'
-  has_many :subscribers, through: :subscriptions, source: "subscriber", :class_name => 'User', :foreign_key => 'subscriber_id'
+  has_many :subscriber_subscriptions, :foreign_key => 'subscriber_id', class_name: "Subscription"
+  has_many :subscribee_subscriptions, :foreign_key => 'subscribee_id', class_name: "Subscription"
+
+  has_many :subscribers, through: :subscribee_subscriptions, source: :subscriber
+  has_many :subscribees, through: :subscriber_subscriptions, source: :subscribee
 
   devise :database_authenticatable, :registerable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
