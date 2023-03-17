@@ -9,4 +9,8 @@ class CurrentUserController < ApplicationController
   def get_subscribees
     render json: {subscriptions: current_user.subscribees}
   end
+  def search
+    @users = User.where("name LIKE ?", "%#{params[:term]}%")
+    render json: @users
+  end
 end

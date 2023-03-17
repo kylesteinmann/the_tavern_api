@@ -49,4 +49,8 @@ class CommentsController < ApplicationController
     def comment_params
       params.require(:comment).permit(:content, :post_id)
     end
+    def search
+      @comments = Comment.where("name LIKE ?", "%#{params[:term]}%")
+      render json: @comments
+    end
 end

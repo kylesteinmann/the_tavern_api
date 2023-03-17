@@ -48,4 +48,8 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(:content)
     end
+    def search
+      @posts = Post.where("name LIKE ?", "%#{params[:term]}%")
+      render json: @posts
+    end
 end
