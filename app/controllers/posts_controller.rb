@@ -1,11 +1,14 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show update destroy ]
 
+  #get users for posts in front end
+  
+
   # GET /posts
   def index
     @posts = Post.all
 
-    render json: @posts
+    render json: @posts, include: :user
   end
 
   # GET /posts/1

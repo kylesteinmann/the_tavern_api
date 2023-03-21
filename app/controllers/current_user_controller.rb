@@ -13,4 +13,9 @@ class CurrentUserController < ApplicationController
     @users = User.where("name LIKE ?", "%#{params[:term]}%")
     render json: @users
   end
+
+  def getUserOnPost
+    user = User.find(params[:id])
+    render json: user.email
+  end
 end
